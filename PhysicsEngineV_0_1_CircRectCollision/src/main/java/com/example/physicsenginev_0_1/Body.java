@@ -16,8 +16,11 @@ public abstract class Body {
     double radius;
     double width;
     double height;
+    boolean isVoid;
+    boolean exists;
+    boolean taco;
 
-    public Body(double xPos, double yPos, double xVel, double yVel, double k, boolean isMovable, double mass, Color color, double radius, double width, double height) {
+    public Body(double xPos, double yPos, double xVel, double yVel, double k, boolean isMovable, double mass, Color color, double radius, double width, double height, boolean isVoid, boolean exists, boolean taco) {
         this.xPos = xPos;
         this.yPos = yPos;
         this.xVel = xVel;
@@ -29,6 +32,9 @@ public abstract class Body {
         this.radius = radius;
         this.width = width;
         this.height = height;
+        this.isVoid = isVoid;
+        this.exists = exists;
+        this.taco = taco;
     }
 
     public void calcForces(double g) {
