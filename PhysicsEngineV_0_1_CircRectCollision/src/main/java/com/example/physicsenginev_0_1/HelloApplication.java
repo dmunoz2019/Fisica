@@ -23,7 +23,7 @@ public class HelloApplication extends Application {
     public void start(Stage stage) throws IOException {
         stage.setTitle("Hello!");
         //docu: https://docs.oracle.com/javafx/2/canvas/jfxpub-canvas.htm
-        Canvas canvas = new Canvas(1280, 720);
+        Canvas canvas = new Canvas(800, 600);
         World.getInstance().setGraphicsContext( canvas.getGraphicsContext2D() );
         World.getInstance().create();
         Group root = new Group();
@@ -50,7 +50,7 @@ public class HelloApplication extends Application {
                 last = now;
 
                 //dibujar fondo
-                canvas.getGraphicsContext2D().setFill(Color.DARKGREEN);
+                canvas.getGraphicsContext2D().setFill(Color.GREEN);
                 canvas.getGraphicsContext2D().fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
                 //escribir "frame rate"
                 double currentFrameRate = 1.0/dt;

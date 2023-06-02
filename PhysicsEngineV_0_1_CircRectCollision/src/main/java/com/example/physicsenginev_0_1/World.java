@@ -31,9 +31,9 @@ public class World {
         double AalturaAnchuraMaxima = 6;
         double balturaAnchuraMinima = 1.5;
         double balturaAnchuraMaxima = 9;
-        Color wallColor = Color.GREEN;
-        Color circColor = Color.BLUE;
-        Color holeColor = Color.WHITE;
+        Color COLORPARED = Color.BLUE;
+        Color COLORPELOTA = Color.WHITE;
+        Color COLORAGUJERO = Color.GREEN;
 
         double trianguloX = 9;
         double trianguloY = -1;
@@ -58,30 +58,26 @@ public class World {
         bodies.add(new Circle(3.5, 1.5, 3, 2, 0, true, 1, Color.BLUE, r, 0, 0, false, true, false));*/
 
         //Walls
-        bodies.add(new Rectangle(-2.5, 0, 0, 0, 0, false, 1, wallColor, 0, AalturaAnchuraMinima, AalturaAnchuraMaxima, false, true, false));
-        bodies.add(new Rectangle(12.5, 0, 0, 0, 0, false, 1, wallColor, 0, AalturaAnchuraMinima, AalturaAnchuraMaxima, false, true, false));
-        bodies.add(new Rectangle(5, 4.5, 0, 0, 0, false, 1, wallColor, 0, balturaAnchuraMaxima, balturaAnchuraMinima, false, true, false));
-        bodies.add(new Rectangle(5, -4.5, 0, 0, 0, false, 1, wallColor, 0, balturaAnchuraMaxima, balturaAnchuraMinima, false, true, false));
+        bodies.add(new Rectangle(-2.5, 0, 0, 0, 0, false, 1, COLORPARED, 0, AalturaAnchuraMinima, AalturaAnchuraMaxima, false, true, false));
+        bodies.add(new Rectangle(12.5, 0, 0, 0, 0, false, 1, COLORPARED, 0, AalturaAnchuraMinima, AalturaAnchuraMaxima, false, true, false));
+        bodies.add(new Rectangle(5, 4.5, 0, 0, 0, false, 1, COLORPARED, 0, balturaAnchuraMaxima, balturaAnchuraMinima, false, true, false));
+        bodies.add(new Rectangle(5, -4.5, 0, 0, 0, false, 1, COLORPARED, 0, balturaAnchuraMaxima, balturaAnchuraMinima, false, true, false));
 
         //Holes
-        bodies.add(new Circle(11, 3, 0, 0, 0, false, 1, holeColor, 0.4, 0, 0, true, true, false));
-        bodies.add(new Circle(11, -3, 0, 0, 0, false, 1, holeColor, 0.4, 0, 0, true, true, false));
-
-        bodies.add(new Circle(-1, 3, 0, 0, 0, false, 1, holeColor, 0.4, 0, 0, true, true, false));
-        bodies.add(new Circle(-1, -3, 0, 0, 0, false, 1, holeColor, 0.4, 0, 0, true, true, false));
-
-        bodies.add(new Circle(5, 3, 0, 0, 0, false, 1, holeColor, 0.4, 0, 0, true, true, false));
-        bodies.add(new Circle(5, -3, 0, 0, 0, false, 1, holeColor, 0.4, 0, 0, true, true, false));
+        bodies.add(new Circle(11, 3, 0, 0, 0, false, 1, null, 0.4, 0, 0, true, true, false));
+        bodies.add(new Circle(11, -3, 0, 0, 0, false, 1, null, 0.4, 0, 0, true, true, false));
+        bodies.add(new Circle(-1, 3, 0, 0, 0, false, 1, null, 0.4, 0, 0, true, true, false));
+        bodies.add(new Circle(-1, -3, 0, 0, 0, false, 1, null, 0.4, 0, 0, true, true, false));
 
         //Cue ball
         bodies.add(new Circle(2, 0, 10, 0, 0.2, true, 1, Color.BLACK, r, 0, 0, false, true, false));
 
         //Balls
-        for (int i = 5; i > 0; i--) {
+        for (int i = 3; i > 0; i--) {
             counter = counter + (r);
             trianguloY = trianguloY + counter;
             for (int j = 0; j < i; j++) {
-                bodies.add(new Circle(trianguloX, trianguloY, 0, 0, 0.2, true, 1, circColor, r, 0, 0, false, true, false));
+                bodies.add(new Circle(trianguloX, trianguloY, 0, 0, 0.2, true, 1, COLORPELOTA, r, 0, 0, false, true, false));
                 trianguloY = trianguloY + (r * 2);
             }
             trianguloY = posicionInicial;
@@ -139,12 +135,12 @@ public class World {
             for (int j = 0; j < bodies.size(); j++) {
                 if (bodies.get(i).isMovable == true && i != j) {
                     if (bodies.get(i) instanceof com.example.physicsenginev_0_1.Circle && bodies.get(j) instanceof com.example.physicsenginev_0_1.Circle) {
-                        Vector col = Collision.checkCircleCollision(bodies.get(i), bodies.get(j));
+                        Vector col = Collision.colisionCirculos(bodies.get(i), bodies.get(j));
                         bodies.get(i).extForces(col);
                     }
 
                     if (bodies.get(i) instanceof Circle && bodies.get(j) instanceof Rectangle) {
-                        Vector col = Collision.checkCircleRectangleCollision(bodies.get(i), bodies.get(j));
+                        Vector col = Collision.colisionCirculoRectangulo(bodies.get(i), bodies.get(j));
                         bodies.get(i).extForces(col);
                     }
                 }
@@ -153,6 +149,14 @@ public class World {
 
         bodies.forEach(n -> n.sim(deltaT));
         //bodies.forEach(n -> n.sim(nuevoDT));
-        bodies.forEach((n -> n.draw()));
+
+        for (int i = 0; i < bodies.size(); i++) {
+            if (bodies.get(i).exists == true) {
+                bodies.get(i).draw();
+            }
+            else {
+                bodies.remove(i);
+            }
+        }
     }
 }
